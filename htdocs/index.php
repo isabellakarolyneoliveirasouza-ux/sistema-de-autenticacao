@@ -6,10 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha_usuario = $_POST['senha_usuario'];
 
     // Query de verificação do usuário e senha
-    $sql = " ";
+    $sql = "SELECT * FROM usuarios WHERE email = :email_usuario AND senha = :senha_usuario";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam();
-    $stmt->bindParam();
+    $stmt->bindParam(':email_usuario', $email_usuario, PDO::PARAM_STR);
+    $stmt->bindParam(':senha_usuario', $senha_usuario, PDO::PARAM_STR);
 
     $stmt->execute();
     $usuario = $stmt->fetch();
