@@ -4,6 +4,7 @@ include 'conecta.php';
 // Verifica se o usuário está logado
 if (!isset($_SESSION['email_usuario'])) {
     header('Location: index.php');
+    exit();
 }
 //Verifica se o formulário enviou algo
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -11,10 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email_usuario = $_SESSION['email_usuario'];
 
     // Query para alteração da senha do usuário
-    $sql = "";
+    $sql = "UPDATE usuarios SET senha = :nova_senha WHERE email = :email_usuario";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam();
-    $stmt->bindParam(':email_usuario', $email_usuario);
+    $stmt->bindParam(':nova_senha', $nova_senha, PDO::PARAM_STR);
+    $stmt->bindParam(':email_usuario', $email_usuario, PDO::PARAM_STR);
 
     try {
         $stmt->execute();
